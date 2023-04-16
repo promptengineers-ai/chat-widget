@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import MyComponent from './MyComponent';
+import ChatWidget from './ChatWidget';
 
 ReactDOM.render(
-    <MyComponent
+    <ChatWidget
         apiKey="your-api-key"
         position="bottom-right"
         backgroundColor="#3498db"
