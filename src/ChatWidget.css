@@ -10,7 +10,7 @@
     cursor: pointer;
     padding: 10px;
     box-sizing: border-box;
-    overflow: hidden;
+    overflow: auto;
     transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
   }
   
@@ -54,7 +54,7 @@
   @media (max-width: 600px) {
     .my-component.expanded {
       width: calc(100vw - 20px);
-      height: calc(100vw - 20px);
+      /* height: calc(100vw - 20px); */
     }
   }
   
@@ -62,6 +62,71 @@
   .my-component p {
     margin: 0;
     word-wrap: break-word;
-    text-align: center;
+    /* text-align: center; */
   }
   
+
+  body {
+    margin: 0 auto;
+    max-width: 800px;
+    padding: 0 20px;
+  }
+  
+  .container {
+    border: 2px solid #dedede;
+    background-color: #9F7AEA;
+    color: #2C313D;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+  }
+  
+  .darker {
+    border-color: #ccc;
+    color: #FFF;
+    background-color: #2C313D;
+  }
+  
+  .container::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+  
+  .container img {
+    float: left;
+    max-width: 60px;
+    width: 100%;
+    margin-right: 20px;
+    border-radius: 50%;
+  }
+  
+  .container img.right {
+    float: right;
+    margin-left: 20px;
+    margin-right:0;
+  }
+  
+  .time-right {
+    float: right;
+    color: #aaa;
+  }
+  
+  .time-left {
+    float: left;
+    color: #999;
+  }
+
+  ::-webkit-scrollbar {
+    width: 0px;
+    height: 0em
+}
+::-webkit-scrollbar-button {
+    background: #ccc
+}
+::-webkit-scrollbar-track-piece {
+    background: #888
+}
+::-webkit-scrollbar-thumb {
+    background: #eee
+}
