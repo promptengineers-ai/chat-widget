@@ -1,16 +1,20 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 // import './index.css';
 // import './tailwind.css';
 import ChatWidget from './ChatWidget';
 
-ReactDOM.render(
+// Create a root.
+const container = document.getElementById('app');
+const root = createRoot(container); 
+
+// Render the component.
+root.render(
     <ChatWidget
         apiKey="your-api-key"
         position="bottom-right"
         backgroundColor="#1A202C"
         textColor="#fff"
         fontFamily="Courier, monospace"
-    />,
-    document.getElementById('app')
+    />
 );
