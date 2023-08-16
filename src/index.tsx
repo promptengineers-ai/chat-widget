@@ -5,7 +5,7 @@ import { createRoot } from 'react-dom/client';
 import ChatWidget from './ChatWidget';
 
 // Create a root.
-const container = document.getElementById('app');
+const container = document.getElementById('app') as HTMLElement;
 const root = createRoot(container); 
 
 // Render the component.
