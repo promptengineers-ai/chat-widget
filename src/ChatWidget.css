@@ -8,7 +8,6 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    padding: 10px;
     box-sizing: border-box;
     overflow: auto;
     transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
@@ -139,7 +138,7 @@
   overflow-y: hidden; 
 } */
 
-.form-control, select, textarea {
+.form-control, select, textarea, input {
   background-color: #171923;
   color: lightgray;
   border-radius: 5px;
@@ -208,6 +207,11 @@
   ::-webkit-scrollbar {
   width: 3px;
   height: 1px;
+  }
+
+  .primary-btn {
+    background: #5E35B1;
+    color: #f8f8f8;
   }
   
   ::-webkit-scrollbar-track {

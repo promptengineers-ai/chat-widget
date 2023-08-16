@@ -34,13 +34,6 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({
     setIsExpanded(!isExpanded);
   };
 
-  const componentStyle = {
-    backgroundColor,
-    fontFamily,
-    color: textColor,
-    borderRadius: '10px',
-  };
-
   const scrollToBottom = () => {
     if (chatWindowRef.current) {
       chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
@@ -52,7 +45,15 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({
   }, [messages, isExpanded]);
 
   return (
-    <div className={`my-component ${position} ${isExpanded ? 'expanded' : ''}`} style={componentStyle}>
+    <div 
+      className={`my-component ${position} ${isExpanded ? 'expanded' : ''}`} 
+      style={{
+        backgroundColor,
+        fontFamily,
+        color: textColor,
+        borderRadius: '10px',
+      }}
+    >
       {isExpanded ? (
         <div style={{ width: "100%" }}>
           <div>
@@ -60,24 +61,35 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({
               x
             </button>
           </div>
-          <div id="chatbox" className="chat-window" style={{ overflowY: 'auto', maxHeight: '490px' }} ref={chatWindowRef}>
+          <div 
+            id="chatbox" 
+            className="chat-window" 
+            style={{ overflowY: 'auto', maxHeight: '545px', marginBottom: '20px' }} 
+            ref={chatWindowRef}
+          >
           </div>
-          <form style={{ display: 'flex', marginTop: '8px' }}>
-            <input
-              type="text"
+          <form style={{ display: 'flex', marginTop: '8px' }} id="messageForm">
+            <textarea
+              rows={2}
               value={chatPayload.query}
               onChange={(e) => setChatPayload({...chatPayload, query: e.target.value})}
               placeholder="Type your message..."
-              style={{ flexGrow: 1, marginRight: '8px', borderRadius: '5px', padding: '5px' }}
+              style={{ 
+                flexGrow: 1, 
+                margin: '5px', 
+                borderRadius: '5px', 
+                padding: '5px', 
+              }}
               ref={userInputRef}
-            />
+            ></textarea>
             <button 
               onClick={(e) => {
                 e.preventDefault();
                 sendChatPayload();
               }}
-              type="submit" 
-              style={{ borderRadius: '5px', padding: '5px' }}
+              type="submit"
+              className="primary-btn" 
+              style={{ borderRadius: '5px', padding: '12px 5px' }}
             >
               Send
             </button>
