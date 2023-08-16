@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './ChatWidget.css';
 import { SiOpenai } from 'react-icons/si';
+import ChatProvider, { useChatContext } from './contexts/ChatContext';
 
-interface MyComponentProps {
+interface ChatWidgetProps {
   apiKey: string;
   position?: 'bottom-right' | 'bottom-left' | 'top-left' | 'top-right' | 'center-bottom' | 'center-top';
   backgroundColor?: string;
@@ -10,40 +11,28 @@ interface MyComponentProps {
   fontFamily?: string;
 }
 
-const MyComponent: React.FC<MyComponentProps> = ({
+const ChatWidget: React.FC<ChatWidgetProps> = ({
   apiKey,
   position = 'bottom-right',
   backgroundColor = '#f0f0f0',
   textColor = '#000',
   fontFamily = 'sans-serif',
 }) => {
+  const { 
+    messages, 
+    setMessages, 
+    sendChatPayload, 
+    chatPayload, 
+    setChatPayload,
+    userInputRef,
+    chatboxRef
+  } = useChatContext();
+  const chatWindowRef = useRef<HTMLDivElement>(null);
   const [isExpanded, setIsExpanded] = useState(false);
-  const [messages, setMessages] = useState([
-    { text: 'Hello. How are you today?', sender: 'bot', timestamp: '11:00' },
-    { text: "Hey! I'm fine. Thanks for asking!", sender: 'user', timestamp: '11:01' },
-    { text: "Hey! I'm fine. Thanks for asking!", sender: 'bot', timestamp: '11:01' },
-    { text: "Hey! I'm fine. Thanks for asking!", sender: 'user', timestamp: '11:01' },
-    { text: "Hey! I'm fine. Thanks for asking!", sender: 'bot', timestamp: '11:01' },
-    { text: "Hey! I'm fine. Thanks for asking!", sender: 'user', timestamp: '11:01' },
-    { text: "Hey! I'm fine. Thanks for asking!", sender: 'bot', timestamp: '11:01' },
-    { text: "Hey! I'm fine. Thanks for asking!", sender: 'user', timestamp: '11:01' },
-  ]);
-  const [newMessage, setNewMessage] = useState('');
 
   const handleClick = () => {
     setIsExpanded(!isExpanded);
   };
-
-  const handleSendMessage = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (newMessage.trim() === '') return;
-
-    setMessages([...messages, { text: newMessage, sender: 'user', timestamp: new Date().toLocaleTimeString() }]);
-    setNewMessage('');
-    inputRef.current?.focus();
-  };
-  const chatWindowRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement | null>(null);
 
   const componentStyle = {
     backgroundColor,
@@ -71,24 +60,25 @@ const MyComponent: React.FC<MyComponentProps> = ({
               x
             </button>
           </div>
-          <div className="chat-window" style={{ overflowY: 'auto', maxHeight: '490px' }} ref={chatWindowRef}>
-            {messages.map((message, index) => (
-              <div key={index} className={`container ${message.sender === 'user' ? 'darker' : ''}`}>
-                <p>{message.text}</p>
-                <span className={`time-${message.sender === 'user' ? 'left' : 'right'}`}>{message.timestamp}</span>
-              </div>
-            ))}
+          <div id="chatbox" className="chat-window" style={{ overflowY: 'auto', maxHeight: '490px' }} ref={chatWindowRef}>
           </div>
-          <form onSubmit={handleSendMessage} style={{ display: 'flex', marginTop: '8px' }}>
+          <form style={{ display: 'flex', marginTop: '8px' }}>
             <input
               type="text"
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
+              value={chatPayload.query}
+              onChange={(e) => setChatPayload({...chatPayload, query: e.target.value})}
               placeholder="Type your message..."
               style={{ flexGrow: 1, marginRight: '8px', borderRadius: '5px', padding: '5px' }}
-              ref={inputRef}
+              ref={userInputRef}
             />
-            <button type="submit" style={{ borderRadius: '5px', padding: '5px' }}>
+            <button 
+              onClick={(e) => {
+                e.preventDefault();
+                sendChatPayload();
+              }}
+              type="submit" 
+              style={{ borderRadius: '5px', padding: '5px' }}
+            >
               Send
             </button>
           </form>
@@ -100,4 +90,4 @@ const MyComponent: React.FC<MyComponentProps> = ({
   );
 };
 
-export default MyComponent;
+export default ChatWidget;
