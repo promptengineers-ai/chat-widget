@@ -12,7 +12,6 @@ interface ChatWidgetProps {
 }
 
 const ChatWidget: React.FC<ChatWidgetProps> = ({
-  apiKey,
   position = 'bottom-right',
   backgroundColor = '#f0f0f0',
   textColor = '#000',
