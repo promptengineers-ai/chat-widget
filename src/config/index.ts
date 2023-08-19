@@ -1,12 +1,10 @@
-import marked from './marked';
 
-const SERVER_URL = 'http://localhost:8000'
-
-const config = {
-  api: {
-    SERVER_URL: SERVER_URL,
-  },
-  marked: marked,
+const getConfig = (serverUrl: string) => {
+  return {
+    api: {
+      SERVER_URL: serverUrl,
+    },
+  }
 }
 
-export default config;
+export default getConfig;

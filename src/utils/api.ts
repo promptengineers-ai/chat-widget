@@ -1,4 +1,4 @@
-import config from '../config';
+import { ConfigType } from '../contexts/ConfigContext';
 import { 
   constructUserMessageDiv, 
   readStreamResponse,
@@ -10,6 +10,7 @@ import {
  * @returns 
  */
  export function sendOpenAiChatMessage(
+  config: ConfigType,
   payload: {
     model: string,
     temperature: number,
@@ -24,7 +25,7 @@ import {
   let chatbox = document.getElementById('chatbox') as HTMLDivElement;
 	chatbox.appendChild(userMessageDiv);
 
-  fetch(`${config.api.SERVER_URL}/chat/stream`, {
+  fetch(`${config?.api.SERVER_URL}/chat/stream`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -46,6 +47,7 @@ import {
  * @returns 
  */
  export function sendOpenAiFunctionChatMessage(
+  config: ConfigType,
   payload: {
     model: string,
     temperature: number,
@@ -61,7 +63,7 @@ import {
   let chatbox = document.getElementById('chatbox') as HTMLDivElement;
 	chatbox.appendChild(userMessageDiv);
 
-  fetch(`${config.api.SERVER_URL}/chat/stream/functions`, {
+  fetch(`${config?.api.SERVER_URL}/chat/stream/functions`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

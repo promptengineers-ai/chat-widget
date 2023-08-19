@@ -1,5 +1,6 @@
 import { useContext, createContext, useState, useRef, useEffect } from "react";
 import { sendOpenAiFunctionChatMessage } from '../utils/api';
+import { ConfigContext } from "./ConfigContext";
 
 export interface IContextProvider {
   children: React.ReactNode;
@@ -38,6 +39,7 @@ const defaultChatContextValue: ChatContextType = {
 
 const ChatContext = createContext(defaultChatContextValue);
 export default function ChatProvider({ children }: IContextProvider) {
+  const config = useContext(ConfigContext);
   const chatboxRef = useRef(null);
   const userInputRef = useRef<HTMLInputElement | null>(null);
   const [chatPayload, setChatPayload] = useState({
@@ -130,7 +132,7 @@ export default function ChatProvider({ children }: IContextProvider) {
       messages: updatedMessages,
     }
 
-    sendOpenAiFunctionChatMessage({
+    sendOpenAiFunctionChatMessage(config, {
       ...payload,
       functions: chatPayload.functions
     }, updateCallback);

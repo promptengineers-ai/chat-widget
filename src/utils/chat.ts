@@ -1,4 +1,4 @@
-import config from '../config';
+import marked from '../config/marked';
 
 export const getLastUserIndex = (messages: {role: string, content: string}[]): number => {
   for (let i = messages.length - 1; i >= 0; i--) {
@@ -31,7 +31,7 @@ export function constructUserMessageDiv(messages: {role: string, content: string
   // Add the user's message to the messages array
 	let userMessageDiv = document.createElement('div');
   userMessageDiv.className = 'message user';
-	userMessageDiv.innerHTML = config.marked.parse(
+	userMessageDiv.innerHTML = marked.parse(
     messages[getLastUserIndex(messages)].content
   );
   // Add a delete button to the user's message
@@ -90,7 +90,7 @@ export function readStreamResponse(
         });
         assistantMessage = ""; // reset the assistant message for the next response
       } else {							
-        assistantMessageDiv.innerHTML = config.marked.parse(assistantMessage);
+        assistantMessageDiv.innerHTML = marked.parse(assistantMessage);
       }
       
       // add the assistant message to the chatbox

@@ -1,6 +1,5 @@
 import './ChatWidget.css';
 import { useEffect, useRef, useState } from 'react';
-import { SiOpenai } from 'react-icons/si';
 import { useChatContext } from './contexts/ChatContext';
 
 interface ChatWidgetProps {
@@ -93,7 +92,9 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({
           </form>
         </div>
       ) : (
-        <SiOpenai size={'30px'} onClick={handleClick} />
+        <div className="chatbox-button" onClick={handleClick}>
+          <img src="https://react.promptengineers.ai/icon.png" alt="chat" width={'40px'} />
+        </div>
       )}
     </div>
   );
