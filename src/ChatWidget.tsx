@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
 import './ChatWidget.css';
+import { useEffect, useRef, useState } from 'react';
 import { SiOpenai } from 'react-icons/si';
-import ChatProvider, { useChatContext } from './contexts/ChatContext';
+import { useChatContext } from './contexts/ChatContext';
 
 interface ChatWidgetProps {
   apiKey: string;
@@ -19,13 +19,11 @@ const ChatWidget: React.FC<ChatWidgetProps> = ({
   fontFamily = 'sans-serif',
 }) => {
   const { 
-    messages, 
-    setMessages, 
-    sendChatPayload, 
-    chatPayload, 
+    messages,
+    sendChatPayload,
+    chatPayload,
     setChatPayload,
     userInputRef,
-    chatboxRef
   } = useChatContext();
   const chatWindowRef = useRef<HTMLDivElement>(null);
   const [isExpanded, setIsExpanded] = useState(false);

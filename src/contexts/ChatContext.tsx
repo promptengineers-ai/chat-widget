@@ -1,17 +1,42 @@
-import React, { useContext, createContext, useState, useRef, useEffect } from "react";
-import { sendOpenAiChatMessage } from '../utils/api';
+import { useContext, createContext, useState, useRef, useEffect } from "react";
+import { sendOpenAiFunctionChatMessage } from '../utils/api';
 
 export interface IContextProvider {
   children: React.ReactNode;
 }
 
-const ChatContext = React.createContext({
+export type ChatContextType = {
+  chatboxRef: React.MutableRefObject<null>;
+  userInputRef: React.MutableRefObject<HTMLInputElement | null>;
+  messages: { role: string; content: string }[];
+  setMessages: (messages: { role: string; content: string }[]) => void;
+  sendChatPayload: () => void;
+  chatPayload: {
+    systemMessage: string;
+    query: string;
+    temperature: number;
+    model: string;
+    vectorstore: string;
+    functions: string[];
+  };
+  setChatPayload: (payload: any) => void;
+  resetMessages: () => void; // This seems to be missing from your type but used in the Provider
+  handleChatboxClick: (e: MouseEvent) => void;
+};
+
+const defaultChatContextValue: ChatContextType = {
+  chatboxRef: { current: null },
+  userInputRef: { current: null },
   messages: [],
   setMessages: () => {},
   sendChatPayload: () => {},
-  chatPayload: { query: '' },
-  setChatPayload: () => {}
-});
+  chatPayload: { systemMessage: '', query: '', temperature: 0, model: '', vectorstore: '', functions: [] },
+  setChatPayload: () => {},
+  resetMessages: () => {}, // Default value
+  handleChatboxClick: () => {}, // Default value
+};
+
+const ChatContext = createContext(defaultChatContextValue);
 export default function ChatProvider({ children }: IContextProvider) {
   const chatboxRef = useRef(null);
   const userInputRef = useRef<HTMLInputElement | null>(null);
@@ -19,17 +44,17 @@ export default function ChatProvider({ children }: IContextProvider) {
     systemMessage: 'You are a helpful assistant.',
     query: '',
     temperature: 0,
-    model: 'gpt-3.5-turbo',
+    model: 'gpt-3.5-turbo-16k',
     vectorstore: '',
     functions: [
-      "get_current_weather",
-      "get_latest_market_news"
+      "get_word_length"
     ]
   });
   const [messages, setMessages] = useState([
     {role: 'system', content: ''},
   ]);
-  const resetMessages = () => {
+
+  function resetMessages() {
     setMessages([
       {role: 'system', content: ''},
     ]);  
@@ -75,6 +100,7 @@ export default function ChatProvider({ children }: IContextProvider) {
       }
     }
   }
+
   async function updateCallback(streamMessages: {role: string, content: string}[]): Promise<void> {
     setMessages(streamMessages);
     // setLoading(false);
@@ -87,7 +113,6 @@ export default function ChatProvider({ children }: IContextProvider) {
       alert('Please enter a message first.');
       return;
     }
-    // setLoading(true);
 
     // Create a copy of the current messages
     const updatedMessages = [...messages];
@@ -105,7 +130,10 @@ export default function ChatProvider({ children }: IContextProvider) {
       messages: updatedMessages,
     }
 
-    sendOpenAiChatMessage(payload, updateCallback);
+    sendOpenAiFunctionChatMessage({
+      ...payload,
+      functions: chatPayload.functions
+    }, updateCallback);
   }
 
   

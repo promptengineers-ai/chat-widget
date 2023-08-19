@@ -14,7 +14,6 @@ root.render(
             position="bottom-right"
             backgroundColor="#1A202C"
             textColor="#fff"
-            // fontFamily="Courier, monospace"
         />
     </ChatProvider>
 );

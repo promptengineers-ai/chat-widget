@@ -1,4 +1,5 @@
 .my-component {
+    padding-top: 20px;
     position: fixed;
     width: 50px;
     height: 75px;
@@ -6,7 +7,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    /* justify-content: center; */
     cursor: pointer;
     box-sizing: border-box;
     overflow: auto;
