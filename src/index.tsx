@@ -10,7 +10,6 @@ const root = ReactDOM.createRoot(container);
 root.render(
     <ChatProvider>
         <ChatWidget
-            apiKey="your-api-key"
             position="bottom-right"
             backgroundColor="#1A202C"
             textColor="#fff"

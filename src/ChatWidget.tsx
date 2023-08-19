@@ -4,7 +4,7 @@ import { SiOpenai } from 'react-icons/si';
 import { useChatContext } from './contexts/ChatContext';
 
 interface ChatWidgetProps {
-  apiKey: string;
+  apiKey?: string;
   position?: 'bottom-right' | 'bottom-left' | 'top-left' | 'top-right' | 'center-bottom' | 'center-top';
   backgroundColor?: string;
   textColor?: string;
