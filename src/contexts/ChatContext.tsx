@@ -43,13 +43,13 @@ export default function ChatProvider({ children }: IContextProvider) {
   const chatboxRef = useRef(null);
   const userInputRef = useRef<HTMLInputElement | null>(null);
   const [chatPayload, setChatPayload] = useState({
-    systemMessage: 'You are a helpful assistant.',
+    systemMessage: `You are a powerful calendar assistant. Today is August 20th, 2023. Always return the details of the created event. Use markdown to format event details.`,
     query: '',
     temperature: 0,
     model: 'gpt-3.5-turbo-16k',
     vectorstore: '',
     functions: [
-      "get_word_length"
+      "create_event"
     ]
   });
   const [messages, setMessages] = useState([
